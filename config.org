@@ -24,25 +24,25 @@ This section is where it make emacs faster to load.
 ** Garbage collection
 Makes startup faster by reducing the frequency of garbage collection
 #+begin_src emacs-lisp
-  ;; Using garbage magic hack.
-  (use-package gcmh
+;; Using garbage magic hack.
+(use-package gcmh
   :ensure nil
-    :config
-    (gcmh-mode 1))
-  ;; Setting garbage collection threshold
-  (setq gc-cons-threshold 402653184
-	gc-cons-percentage 0.6)
+  :config
+  (gcmh-mode 1))
+;; Setting garbage collection threshold
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
 
-  ;; Profile emacs startup
-  (add-hook 'emacs-startup-hook
-	    (lambda ()
-	      (message "*** Emacs loaded in %s with %d garbage collections."
-		       (format "%.2f seconds"
-			       (float-time
-				(time-subtract after-init-time before-init-time)))
-		       gcs-done)))
+;; Profile emacs startup
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    (message "*** Emacs loaded in %s with %d garbage collections."
+		     (format "%.2f seconds"
+			     (float-time
+			      (time-subtract after-init-time before-init-time)))
+		     gcs-done)))
 
-  ;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
+;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
 #+end_src
 ** Native Compil
 #+begin_src emacs-lisp
@@ -61,20 +61,20 @@ Makes startup faster by reducing the frequency of garbage collection
 Setup evil for vim like keybindings
 *** Evil
 #+begin_src emacs-lisp
-  (use-package evil
-    :ensure nil
-    :init
-    (setq evil-want-keybinding nil)
-    (setq evil-vsplit-window-right t)
-    (setq evil-split-window-below t)
+(use-package evil
+  :ensure nil
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-vsplit-window-right t)
+  (setq evil-split-window-below t)
 
-    :config(evil-mode 1)
-    (setq evil-undo-system 'undo-fu))
+  :config(evil-mode 1)
+  (setq evil-undo-system 'undo-fu))
 #+end_src
 *** Evil Collection
 #+begin_src emacs-lisp
 (use-package evil-collection
- :ensure nil
+  :ensure nil
   :after evil
   :init  
   (evil-collection-init))
@@ -89,8 +89,8 @@ Setup evil for vim like keybindings
 #+end_src
 *** Evil Nerd Commenter
 #+begin_src emacs-lisp
-  (use-package evil-nerd-commenter
-    :ensure nil)
+(use-package evil-nerd-commenter
+  :ensure nil)
 #+end_src
 ** Undo-Fu
 #+begin_src emacs-lisp
@@ -104,11 +104,11 @@ Setup evil for vim like keybindings
 ** Which-Key
 #+begin_src emacs-lisp
 (use-package which-key
-:ensure nil
+  :ensure nil
   :init
-(setq  which-key-popup-type 'minibuffer
-which-key-idle-delay 0.3)
-(which-key-mode 1))
+  (setq  which-key-popup-type 'minibuffer
+	 which-key-idle-delay 0.3)
+  (which-key-mode 1))
 #+end_src
 ** Move Text/Region Up/Down
 #+begin_src emacs-lisp
@@ -125,11 +125,11 @@ General.el allows us to set keybindings.  As a longtime Doom Emacs user, I have 
 
 
 (nvmap :keymaps 'override :prefix "g"
- "c" '(evilnc-comment-or-uncomment-lines :which-key "comment line"))
+  "c" '(evilnc-comment-or-uncomment-lines :which-key "comment line"))
 (nvmap :keymaps 'override :prefix "SPC"
   "SPC"  '(counsel-M-x :which-key "M-x")
   "." '(find-file :which-key "Find-file")
-"," '(project-find-file :which-key "Find File in Project")
+  "," '(project-find-file :which-key "Find File in Project")
   "c" '(:ignore t :which-key "Code")
   "c c"   '(compile :which-key "Compile")
   "c C"   '(recompile :which-key "Recompile")
@@ -138,15 +138,15 @@ General.el allows us to set keybindings.  As a longtime Doom Emacs user, I have 
   "h p" '(package-refresh-contents :which-key "refresh Packages") 
   "h r r" '((lambda () (interactive) (load-file "~/.emacs.gnu/init.el")) :which-key "Reload emacs config"))
 (nvmap :keymaps 'override :prefix "SPC"
-"e" '(:ignore t :which-key "Elfeed/Shell")
-"e e" '(elfeed :which-key "Elfeed")
-"e u" '(elfeed-update :which-key "Elfeed Update")
+  "e" '(:ignore t :which-key "Elfeed/Shell")
+  "e e" '(elfeed :which-key "Elfeed")
+  "e u" '(elfeed-update :which-key "Elfeed Update")
   "e h"   '(counsel-esh-history :which-key "Eshell history")
   "e s"   '(eshell :which-key "Eshell"))
 (nvmap :keymaps 'override :prefix "SPC"
-"t" '(:ignore t :which-key "Toggle")
-"t p" '(org-pomodoro :which-key "Pomodoro Start/Stop")
-"t t" '(modus-themes-toggle :which-key "Modus Themes")
+  "t" '(:ignore t :which-key "Toggle")
+  "t p" '(org-pomodoro :which-key "Pomodoro Start/Stop")
+  "t t" '(modus-themes-toggle :which-key "Modus Themes")
   "t l"   '(toggle-truncate-lines :which-key "Toggle truncate lines"))
 (nvmap :keymaps 'override :prefix "SPC"
   "m" '(:ignore t :which-key "<localleader>")
@@ -173,30 +173,30 @@ General.el allows us to set keybindings.  As a longtime Doom Emacs user, I have 
 
 #+begin_src emacs-lisp
 (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
-       "f"     '(:ignore t :which-key "Files")
-       "f f"   '(find-file :which-key "Find file")
-"f p" '((lambda () (interactive) (find-file "~/.emacs.gnu/config.org")) :which-key "Emacs Config file")
-       "f r"   '(counsel-recentf :which-key "Recent files")
-       "f s"   '(save-buffer :which-key "Save file")
-       "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
-       "f y"   '(dt/show-and-copy-buffer-path :which-key "Yank file path")
-       "f C"   '(copy-file :which-key "Copy file")
-       "f D"   '(delete-file :which-key "Delete file")
-       "f R"   '(rename-file :which-key "Rename file")
-       "f S"   '(write-file :which-key "Save file as...")
-       "f U"   '(sudo-edit :which-key "Sudo edit file"))
+  "f"     '(:ignore t :which-key "Files")
+  "f f"   '(find-file :which-key "Find file")
+  "f p" '((lambda () (interactive) (find-file "~/.emacs.gnu/config.org")) :which-key "Emacs Config file")
+  "f r"   '(counsel-recentf :which-key "Recent files")
+  "f s"   '(save-buffer :which-key "Save file")
+  "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
+  "f y"   '(dt/show-and-copy-buffer-path :which-key "Yank file path")
+  "f C"   '(copy-file :which-key "Copy file")
+  "f D"   '(delete-file :which-key "Delete file")
+  "f R"   '(rename-file :which-key "Rename file")
+  "f S"   '(write-file :which-key "Save file as...")
+  "f U"   '(sudo-edit :which-key "Sudo edit file"))
 #+end_src
 
 ** Installing Some Useful File-related Modules
 Though 'recentf' is one way to find recent files although I prefer using 'counsel-recentf'.
 
 #+begin_src emacs-lisp
-    (use-package recentf
-    :ensure nil
-      :config
-      (recentf-mode))
-    (use-package sudo-edit
-      :ensure nil) ;; Utilities for opening files with sudo
+(use-package recentf
+  :ensure nil
+  :config
+  (recentf-mode))
+(use-package sudo-edit
+  :ensure nil) ;; Utilities for opening files with sudo
 
 #+end_src
 
@@ -233,39 +233,39 @@ Ivy, counsel and swiper are a generic completion mechanism for Emacs.  Ivy-rich 
 
 *** Installing Ivy And Basic Setup
 #+begin_src emacs-lisp
-  (use-package counsel
-    :ensure nil
-    :after ivy
-    :config (counsel-mode))
-  (use-package ivy
-    :ensure nil
-    :defer 0.1
-    :diminish
-    :bind
-    (("C-c C-r" . ivy-resume)
-     ("C-x B" . ivy-switch-buffer-other-window))
-    :custom
-    (setq ivy-count-format "(%d/%d) ")
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    :config
-    (ivy-mode))
-  (use-package ivy-rich
-    :ensure nil
-    :after ivy
-    :custom
-    (ivy-virtual-abbreviate 'full
-			    ivy-rich-switch-buffer-align-virtual-buffer t
-			    ivy-rich-path-style 'abbrev)
-    :config
-    (ivy-set-display-transformer 'ivy-switch-buffer
-				 'ivy-rich-switch-buffer-transformer)
-    (ivy-rich-mode 1)) ;; this gets us descriptions in M-x.
-  (use-package swiper
-    :ensure nil
-    :after ivy
-    :bind (("C-s" . swiper)
-	   ("C-r" . swiper)))
+(use-package counsel
+  :ensure nil
+  :after ivy
+  :config (counsel-mode))
+(use-package ivy
+  :ensure nil
+  :defer 0.1
+  :diminish
+  :bind
+  (("C-c C-r" . ivy-resume)
+   ("C-x B" . ivy-switch-buffer-other-window))
+  :custom
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  :config
+  (ivy-mode))
+(use-package ivy-rich
+  :ensure nil
+  :after ivy
+  :custom
+  (ivy-virtual-abbreviate 'full
+			  ivy-rich-switch-buffer-align-virtual-buffer t
+			  ivy-rich-path-style 'abbrev)
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer
+			       'ivy-rich-switch-buffer-transformer)
+  (ivy-rich-mode 1)) ;; this gets us descriptions in M-x.
+(use-package swiper
+  :ensure nil
+  :after ivy
+  :bind (("C-s" . swiper)
+	 ("C-r" . swiper)))
 #+end_src
 
 *** Making M-x Great Again!
@@ -295,20 +295,20 @@ Smex is a package the makes M-x remember our history.  Now M-x will show our las
 The configuration for elfeed
 #+begin_src emacs-lisp
 (use-package elfeed
-:ensure nil
-:config
-(setq elfeed-feeds
-                    '(("https://reactjs.org/feed.xml" React Tech)
-                     ("https://feeds.feedburner.com/ReactjsComponents?format=xml" React Tech)
-                     ("https://reactnative.dev/blog/rss.xml" React-Native Tech)
-                     ("https://dev.to/feed/tag/react" React Tech)
-                     ("https://dev.to/feed/tag/productivity" Productivity Tech)
-                     ("https://dev.to/feed/tag/css" CSS Tech)
-                     ("https://dev.to/feed/tag/devops" Devops Tech)
-                     ("https://dev.to/feed/tag/testing" Testing Tech)
-                     ("https://dev.to/feed/tag/machinelearning" Machine-Learning Tech)
-                     ("https://www.thehindu.com/opinion/editorial/feeder/default.rss" News Editorial)
-                     ("https://madewithreact.com/rss/" React Tech))))
+  :ensure nil
+  :config
+  (setq elfeed-feeds
+        '(("https://reactjs.org/feed.xml" React Tech)
+          ("https://feeds.feedburner.com/ReactjsComponents?format=xml" React Tech)
+          ("https://reactnative.dev/blog/rss.xml" React-Native Tech)
+          ("https://dev.to/feed/tag/react" React Tech)
+          ("https://dev.to/feed/tag/productivity" Productivity Tech)
+          ("https://dev.to/feed/tag/css" CSS Tech)
+          ("https://dev.to/feed/tag/devops" Devops Tech)
+          ("https://dev.to/feed/tag/testing" Testing Tech)
+          ("https://dev.to/feed/tag/machinelearning" Machine-Learning Tech)
+          ("https://www.thehindu.com/opinion/editorial/feeder/default.rss" News Editorial)
+          ("https://madewithreact.com/rss/" React Tech))))
 
 (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
 (evil-define-key 'normal elfeed-show-mode-map
@@ -362,33 +362,33 @@ Eshell is an Emacs 'shell' that is written in Elisp.
 #+begin_src emacs-lisp
 #+end_src
 
-  + 'eshell-syntax-highlighting' -- adds fish/zsh-like syntax highlighting.
-  + 'eshell-rc-script' -- your profile for eshell; like a bashrc for eshell.
-  + 'eshell-aliases-file' -- sets an aliases file for the eshell.
++ 'eshell-syntax-highlighting' -- adds fish/zsh-like syntax highlighting.
++ 'eshell-rc-script' -- your profile for eshell; like a bashrc for eshell.
++ 'eshell-aliases-file' -- sets an aliases file for the eshell.
 
-    #+begin_src emacs-lisp
-    (use-package eshell-syntax-highlighting
-     :ensure nil
-      :after esh-mode
-      :config
-      (eshell-syntax-highlighting-global-mode +1))
+  #+begin_src emacs-lisp
+  (use-package eshell-syntax-highlighting
+    :ensure nil
+    :after esh-mode
+    :config
+    (eshell-syntax-highlighting-global-mode +1))
 
-    (setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
-          eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
-          eshell-history-size 5000
-          eshell-buffer-maximum-lines 5000
-          eshell-hist-ignoredups t
-          eshell-scroll-to-bottom-on-input t
-          eshell-destroy-buffer-when-process-dies t
-          eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
-    #+end_src
+  (setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
+        eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+        eshell-history-size 5000
+        eshell-buffer-maximum-lines 5000
+        eshell-hist-ignoredups t
+        eshell-scroll-to-bottom-on-input t
+        eshell-destroy-buffer-when-process-dies t
+        eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+  #+end_src
 
 *** Vterm
 Vterm is a terminal emulator within Emacs.  The 'shell-file-name' setting sets the shell to be used in M-x shell, M-x term, M-x ansi-term and M-x vterm.  By default, the shell is set to 'fish' but could change it to 'bash' or 'zsh' if you prefer.
 
 #+begin_src emacs-lisp
 (use-package vterm
- :ensure nil)
+  :ensure nil)
 (setq shell-file-name "/usr/local/bin/fish"
       vterm-max-scrollback 5000)
 #+end_src
@@ -402,7 +402,7 @@ Vterm is a terminal emulator within Emacs.  The 'shell-file-name' setting sets t
   (projectile-global-mode 1))
 (nvmap :keymaps 'override :prefix "SPC"
   "p" '(projectile-command-map :which-key "Projects")
-"p a" '(projectile-add-known-project :which-key "Add Project"))
+  "p a" '(projectile-add-known-project :which-key "Add Project"))
 #+end_src
 
 ** REGISTERS
@@ -463,7 +463,7 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 
 #+begin_src emacs-lisp
 (use-package all-the-icons-dired
- :ensure nil)
+  :ensure nil)
 (use-package dired-open :ensure nil)
 (use-package peep-dired :ensure nil)
 
@@ -698,10 +698,10 @@ We want the same syntax highlighting in source blocks as in the native language 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((restclient . t)
-(emacs-lisp . t)
-(js . t)
-(org . t)
-(ledger . t)))
+   (emacs-lisp . t)
+   (js . t)
+   (org . t)
+   (ledger . t)))
 #+end_src
 *** Org-Bullets
 #+begin_src emacs-lisp
@@ -817,7 +817,7 @@ We want the same syntax highlighting in source blocks as in the native language 
   :config
   ;; Load the theme of your choice:
   ;;(modus-themes-load-operandi) ;; OR
-(modus-themes-load-vivendi))
+  (modus-themes-load-vivendi))
 
 #+end_src
 ** Graphical UI Settings
@@ -849,16 +849,16 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
   
 #+begin_src emacs-lisp
 (use-package all-the-icons
- :ensure nil)
+  :ensure nil)
 
 #+end_src
 
 * BUFFERS AND BOOKMARKS
 #+begin_src emacs-lisp
 (defun kill-other-buffers ()
-      "Kill all other buffers."
-      (interactive)
-      (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 (nvmap :keymaps 'override :prefix "SPC"
   "b" '(:ignort t :which-kef "Buffer")
@@ -875,9 +875,9 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
 * Extra To be farmatted later
 #+begin_src emacs-lisp
 (use-package avy
-:ensure nil)
+  :ensure nil)
 (use-package evil-avy
-:ensure nil)
+  :ensure nil)
 
 #+end_src
 
@@ -889,7 +889,7 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
 
 ** Backup
 #+begin_src emacs-lisp
-					  ;(setq make-backup-files nil)
+(setq make-backup-files nil)
 
 #+end_src
 

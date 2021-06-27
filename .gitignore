@@ -1,0 +1,7 @@
+All files in the folder are ignored except for config.org and init.el
+*.*
+/*
+
+!init.el
+!config.org
+!.gitignore
